@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Enterprise ERP Prototype Dashboard</title>
+        <style>
+           body {
+                font-family: Arial, sans-serif;
+                margin: 30px;
+                background-color: #f4f7f6;
+                color: #333; }
+                h1, h2, h3 {
+                color: #2c3e50; }
+                table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 30px;
+            background-color: #fff; }
+            th, td {
+                border: 1px solid #ddd;
+                padding: 12px;
+                text-align: left; }
+                th {
+                background-color: #2980b9;
+                color: white; }
+                form {
+                background-color: #fff;
+                padding: 20px;
+                border: 1px solid #ddd;
+                margin-bottom: 30px;
+                border-radius: 5px;
+            width: 400px;
+        display: inline-block;
+    vertical-align: top;
+margin-right: 20px;}
+input, select, textarea {
+                width: 100%;
+                padding: 8px;
+                margin: 5px 0 15px 0;
+                box-sizing: border-box; }
+button {
+                background-color: #27ae60;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                cursor: pointer;
+            border-radius: 3px;
+        font-weight: bold; }
+button:hover {
+                background-color: #219653; }
+.container {
+                display: flex;
+                flex-wrap: wrap; 
+            gap: 20px; }
+        </style>    
+    </head>
+    <body>
+        <h1>Lightweight ERP System Prototype</h1>
+        <p>Connected Modules: <strong>Materials Management (Inventory)</strong>&amp; <strong><Sales/Financials</strong> on a Single Database</p>
+
+        <div class="container">
+            <!-- Add Product Form -->
+             <div>
+              <h2>1. Add Product</h2>
+                <label for="productName">Product Name:</label>
+                <input type="text" name="name" required>
+                <label>SKU Code:</label>
+                <input type="text" name="sku" required>
+                <label> Unit Pricec($):</label>
+                <input type="number" step="0.01" name="unit_price"required>
+                <label>Initial Stock:</label>
+                <input type="number" name="stock_quantity" required>
+                <button type="submit">Save Product</button>
+             </form>
+            </div>
+
+         <!--- Process Order Form -->
+        <div>
+             <h2>2. Process Sale Order</h2>
+             <form action="/process_order" method="POST">
+            <label>Customer Name:</label>
+            <input type="text" name="customer_name" required>
+            <label>Select Product:</label>
+            <select name="product_id" required>
+                {% for p in products %}
+                    <option value="{{ p.product.id }}">{{ p.product.name }} (Stock: {{ p.stock_quantity }})</option>
+                {% endfor %}
+            </select>
+            <label>Quantity Sold:</label>
+            <input type="number" name="quantity_sold" min="1" required>
+            <button type="submit">Process Order</button>
+        </form>
+        </div>
+        </div>
+
+        <h2>3. Inventory Status (Materials Management Module)</h2>
+        <table>
+            <thead>
+                <tr>
+                   
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in products %}
+                <tr>
+                    <td>{{ p.name }}</td>
+                    <td>{{ p.sku }}</td>
+                    <td>${"%.2ft"|formart{ p.unit_price }}</td>
+                    <td>{{ p.stock_quantity }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+            <h2>Sales Ledger &amp; Finanical Records (Financial Module)</h2>
+            <table>
+                <thread>
+                    <tr>
+                    <td>{{ o.order_id }}</td>
+                    <td>{{ o.customer_name }}</td>
+                    <td>${{"%.2ft"|formart(o.total_amount) }}</td>
+                    <td>{{o.payment_status }}</td>
+                    <td>{{o.order_date}}</td>
+                    </tr>
+                   {% endfor %} 
+            </table>
+        </body>
+        </html> 
+
+
+
+    
